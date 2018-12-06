@@ -82,7 +82,7 @@ N = 30;
 [l, mu] = kmeans(y, N);
 % Apply RBF to get Hidden layer
 for i = 1:size(y, 1)
-    for j = size(mu, 1)
+    for j = 1:size(mu, 1)
         % Cubic function
         H(i, j) = (norm(y(i, :) - mu(j, :)))^3;
     end

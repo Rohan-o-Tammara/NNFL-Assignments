@@ -20,7 +20,8 @@ iterations = 1000;
 dat = csvread('dataset.csv');
 
 % Normalize input data
-X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4)) normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
+X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4))...
+     normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
 
 % One hot encode output classes
 Y = ind2vec(dat(:, 8)')';

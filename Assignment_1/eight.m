@@ -26,7 +26,7 @@ for n = 1:3
             end
         end
     end
-    if n == 1
+    if n == 2
         for i = 1:150
             if data_n(i,6) ~= 2
                 data_n(i,6) = 0;

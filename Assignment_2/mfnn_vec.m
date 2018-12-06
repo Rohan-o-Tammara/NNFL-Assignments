@@ -61,8 +61,8 @@ cost = zeros([iterations 1]);
 
 for k = 1:iterations
   % --- Forward propogation --- %
-  z1 = [b*ones(M, 1) sigmoid(x_train*w1)];
-  z2 = [b*ones(M, 1) sigmoid(z1*w2)];
+  z1 = [b*ones(M, 1) sigmoid(x_train*w1+b)];
+  z2 = [b*ones(M, 1) sigmoid(z1*w2+b)];
   y = sigmoid(z2*w3);
   % --- Back propogation --- %
   cost(k) = mean(mean((y_train - y).^2));
@@ -87,8 +87,8 @@ end
 % --- Validation --- %
 [m, n] = size(x_test);
 x_test = [ones(m, 1) x_test];
-z1_p = [b*ones(m, 1) sigmoid(x_test*w1)];
-z2_p = [b*ones(m, 1) sigmoid(z1_p*w2)];
+z1_p = [b*ones(m, 1) sigmoid(x_test*w1+b)];
+z2_p = [b*ones(m, 1) sigmoid(z1_p*w2+b)];
 y_p = sigmoid(z2_p*w3);
 for i = 1:size(y_p, 1)
     [val, idx] = max(y_p(i, :));

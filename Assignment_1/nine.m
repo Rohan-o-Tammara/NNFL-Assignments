@@ -48,10 +48,9 @@ for f = 1:5
         y_test = y(121:150, :);
     end
     w = logistic_regression(x_train, y_train, 100, 0.1, w);
-end
-
-% Make predictions
-y_pred = zeros(size(y));
-for i = 1:size(y_pred,1)
-y_pred(i) = round(1 + 1/(1 - exp(-(x(i,:)*w'))));
+    % Validation
+    y_pred = zeros(size(y_test));
+    for i = 1:size(y_pred,1)
+        y_pred(i) = round(1 + 1/(1 - exp(-(x_test(i,:)*w'))));
+    end
 end
