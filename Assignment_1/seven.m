@@ -1,7 +1,19 @@
+clc;
+clear;
+
 % Standardizing function
-norm = @(v) (v-mean(v))/std(v);
+normalize = @(v) (v-mean(v))/std(v);
+% ---------------------------- %
+
+% Load data
+raw = csvread('data3.csv', 1, 0);
+x1 = raw(:, 1);
+x2 = raw(:, 2);
+x3 = raw(:, 3);
+x4 = raw(:, 4);
+y = raw(:, 5);
 % Prepare data (60:40 hold-out)
-data = [ones(100,1) norm(x1) norm(x2) norm(x3) norm(x4) y];
+data = [ones(100,1) normalize(x1) normalize(x2) normalize(x3) normalize(x4) y];
 shuffled = data(randperm(size(data,1)),:);
 x = shuffled(:,end-1);
 y = shuffled(:,end);
@@ -36,12 +48,12 @@ for iter = 1:k
         w(j) = w(j) - lr*gradient;
     end
 end
-
+% Make predictions
 y_pred = zeros(size(y_test));
 for i = 1:size(y_pred,1)
     y_pred(i) = round(1 + 1/(1 - exp(-(x_test(i,:)*w'))));
 end
-
+% Create confusion matrix
 result = [y_test y_pred];
 tp = 0;
 tn = 0;
@@ -62,6 +74,7 @@ for i = 1:40
         end
     end
 end
+% Calculate stats
 se = tp/(tp+fn);
 sp = tn/(tn+fp);
 acc = (tp+tn)/(tp+tn+fp+fn);

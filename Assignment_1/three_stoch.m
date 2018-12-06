@@ -1,7 +1,17 @@
+clc;
+clear;
+
 % Define normalizing function
 normalize = @(v) (v-mean(v))/std(v);
+% ---------------------------------- %
+
 % Num of iterations
 k = 500;
+% Load data
+data = csvread('data.csv', 1, 0);
+x1 = data(:, 1);
+x2 = data(:, 2);
+y = data(:, 3);
 % Initialize variables
 x = [ones(349,1) normalize(x1) normalize(x2)];
 [m, n] = size(x);

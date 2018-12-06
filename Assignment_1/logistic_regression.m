@@ -1,7 +1,12 @@
-function w = logistic_regression( x_train, y_train, k, lr )
+function w = logistic_regression( x_train, y_train, k, lr, w)
+% ----------------------------------------------------------------- %
+% Funtion to perform logistic regression on data and return weights %
+% ----------------------------------------------------------------- %
     [m, n] = size(x_train);
     % Initialize variables
-    w = rand(1, n);
+    if ~exist('w', 'var')
+        w = rand(1, n);
+    end
     h = zeros(m, 1);
     % Start training
     for iter = 1:k

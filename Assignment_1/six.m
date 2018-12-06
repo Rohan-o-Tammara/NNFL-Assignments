@@ -1,7 +1,18 @@
+clc;
+clear;
+
 % Normalizing function
-norm = @(v) (v-mean(v))/std(v);
+normalize = @(v) (v-mean(v))/std(v);
+% ----------------------------- %
+
+% Load data
+data = csvread('data2.csv', 1, 0);
+x1 = data(:, 1);
+x2 = data(:, 2);
+x3 = data(:, 3);
+x4 = data(:, 4);
 % Data with added labels column
-x = [norm(x1) norm(x2) norm(x3) norm(x4)];
+x = [normalize(x1) normalize(x2) normalize(x3) normalize(x4)];
 [p, q] = size(x);
 x = [x zeros(p,1)];
 % Clusters initialized
