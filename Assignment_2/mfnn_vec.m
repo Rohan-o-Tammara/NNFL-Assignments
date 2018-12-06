@@ -12,13 +12,13 @@ H1 = 15;
 H2 = 5;
 
 % Learning rate
-lr = 0.25;
+lr = 0.15;
 
 % Momentum factor
 p = 0.001;
 
 % Number of iterations
-iterations = 1500;
+iterations = 2000;
 
 % Load data
 dat = csvread('dataset.csv');

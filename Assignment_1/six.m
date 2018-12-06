@@ -35,4 +35,4 @@ for iter = 1:k
         c(j,:) = mean(x(x(:,q+1)==j,1:q));
     end
 end
-plot()
+plot(x(:, 1:4), x(:, 5), 'o');
