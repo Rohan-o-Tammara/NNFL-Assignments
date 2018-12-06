@@ -22,3 +22,5 @@ for k = 1:iter
     e(k) = sum((y-h).^2);
 end
 plot(e)
+xlabel('Iterations')
+ylabel('Cost')
