@@ -57,12 +57,32 @@ for i = 1:40
     end
 end
 
-% Accuracy
-correct = 0;
+% Create confusion matrix
+result = [y_test y_p];
+tp = 0;
+tn = 0;
+fp = 0;
+fn = 0;
 for i = 1:40
-    if y_p(i) == y_test(i)
-        correct = correct + 1;
+    if y_p(i)-y_test(i) == 0
+        if y_test(i) == 1
+            tp = tp + 1;
+        else
+            tn = tn + 1;
+        end
+    else
+        if y_p(i)-y_test(i) == 1
+            fp = fp + 1;
+        else
+            fn = fn + 1;
+        end
     end
 end
-acc = correct/45;
+% Calculate stats
+se = tp/(tp+fn);
+sp = tn/(tn+fp);
+acc = (tp+tn)/(tp+tn+fp+fn);
+disp([tp fn;fp tn]);
+disp(['Sensitivity: ', num2str(se)]);
+disp(['Specificity: ', num2str(sp)]);
 disp(['Accuracy: ', num2str(acc)]);

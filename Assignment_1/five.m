@@ -30,7 +30,7 @@ for iter = 1:k
     h = x*w(iter,:)' + b;
     % Update cost
     cost(iter) =(1/2*m)*(h-y)'*(h-y)+lambda*sum(w(iter,:));
-    % Update weights (Batch GD)
+    % Update weights
     w(iter,:) = (y'*x-(lambda/2)*sign(w(iter,:)))/(x'*x);
     w(iter+1,:) = w(iter,:);
 end

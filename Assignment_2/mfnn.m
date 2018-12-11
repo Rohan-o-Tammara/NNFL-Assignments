@@ -8,7 +8,7 @@ sigmoid = @(x) 1/(1 + exp(-x));
 %--------------------------------------%
 
 % No. of hidden neurons
-H = 32;
+H = 64;
 
 % Learning rate
 lr = 0.5;
@@ -82,7 +82,6 @@ for k = 1:iterations
             end
             del_b2 = -lr*(y_train(t, i)-y(t, i))*y(t, i)*(1-y(t,i));
         end
-        
         for h = 1:H
             for j = 1:N
                 sigma = 0;
@@ -92,15 +91,13 @@ for k = 1:iterations
                 del_w1(h, j) = -lr*sigma*z(h)*(1-z(h))*x_train(t,j);
             end
             del_b1 = -lr*sigma*z(h)*(1-z(h));
-        end
-        
+        end   
         for i = 1:K
             for h = 1:H
                 w2(i,h) = w2(i,h) - del_w2(i,h);
             end
             b2 = b2 - del_b2;
-        end
-        
+        end      
         for h = 1:H
             for j = 1:N
                 w1(h,j) = w1(h,j) - del_w1(h, j);

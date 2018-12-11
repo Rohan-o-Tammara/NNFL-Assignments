@@ -41,5 +41,3 @@ end
 % J vs k
 figure(1)
 plot(cost);
-figure(2)
-plot(cost, w(:, 2))

@@ -23,7 +23,8 @@ iterations = 1000;
 dat = csvread('dataset.csv');
 
 % Normalize input data
-X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4)) normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
+X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4))...
+    normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
 
 % One hot encode output classes
 Y = ind2vec(dat(:, 8)')';
@@ -78,7 +79,7 @@ end
 % --- RBFN --- %
 % Number of RBF neurons
 N = 30;
-% Perform K-Means clustering on training data (for 10 neurons)
+% Perform K-Means clustering on training data (for 30 neurons)
 [l, mu] = kmeans(y, N);
 % Apply RBF to get Hidden layer
 for i = 1:size(y, 1)

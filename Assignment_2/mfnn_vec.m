@@ -8,8 +8,8 @@ sigmoid = @(x) 1./(1 + exp(-x));
 %--------------------------------------%
 
 % No. of hidden neurons
-H1 = 15;
-H2 = 5;
+H1 = 10;
+H2 = 15;
 
 % Learning rate
 lr = 0.15;
@@ -24,7 +24,8 @@ iterations = 2000;
 dat = csvread('dataset.csv');
 
 % Normalize input data
-X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4)) normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
+X = [normalize(dat(:, 1)) normalize(dat(:, 2)) normalize(dat(:, 3)) normalize(dat(:, 4))...
+    normalize(dat(:, 5)) normalize(dat(:, 6)) normalize(dat(:, 7))];
 
 % One hot encode output classes
 Y = ind2vec(dat(:, 8)')';
@@ -41,7 +42,6 @@ x_test = X(106:150, :);
 y_train = Y(1:105, :);
 y_test = Y(106:150, :);
 [M, N] = size(x_train);
-[P, Q] = size(x_test);
 
 % Number of classes
 K = 3;
@@ -51,13 +51,6 @@ w1 = (rand([N+1 H1]) - rand([N+1 H1]))/100;
 w2 = (rand([H1+1 H2]) - rand([H1+1 H2]))/100;
 w3 = (rand([H2+1 3]) - rand([H2+1 3]))/100;
 b = -1;
-
-% Auxiliaries
-x_train = [b*ones(M, 1) x_train];
-Dw1 = zeros(N+1, H1);
-Dw2 = zeros(H1+1, H2);
-Dw3 = zeros(H2+1, 3);
-cost = zeros([iterations 1]);
 
 for k = 1:iterations
   % --- Forward propogation --- %

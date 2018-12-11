@@ -23,6 +23,8 @@ for n = 1:3
         for i = 1:150
             if data_n(i,6) ~= 1
                 data_n(i,6) = 0;
+            else
+                data_n(i,6) = 1;
             end
         end
     end
@@ -30,6 +32,8 @@ for n = 1:3
         for i = 1:150
             if data_n(i,6) ~= 2
                 data_n(i,6) = 0;
+            else
+                data_n(i,6) = 1;
             end
         end
     end
@@ -37,6 +41,8 @@ for n = 1:3
         for i = 1:150
             if data_n(i,6) ~= 3
                 data_n(i,6) = 0;
+            else
+                data_n(i,6) = 1;
             end
         end
     end
@@ -57,10 +63,10 @@ y_test = y(91:150,:);
 % Validate
 y_pred = zeros(size(y_test));
 for i = 1:size(y_pred,1)
-    y_p1 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(1, :)'))));
-    y_p2 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(2, :)'))));
-    y_p3 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(3, :)'))));
-    y_pred(i) = max([y_p1 y_p2 y_p3]);
+    y_p1 = 1/(1 + exp(-(x_test(i,:)*w_m(1, :)')));
+    y_p2 = 1/(1 + exp(-(x_test(i,:)*w_m(2, :)')));
+    y_p3 = 1/(1 + exp(-(x_test(i,:)*w_m(3, :)')));
+    [val, y_pred(i)] = max([y_p1 y_p2 y_p3]);
 end
 y_onevall = y_pred;
 
@@ -92,9 +98,60 @@ y_test = y(91:150,:);
 % Validate
 y_pred = zeros(size(y_test));
 for i = 1:size(y_pred,1)
-    y_p1 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(1, :)'))));
-    y_p2 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(2, :)'))));
-    y_p3 = round(1 + 1/(1 - exp(-(x_test(i,:)*w_m(3, :)'))));
+    y_p1 = 1/(1 + exp(-(x_test(i,:)*w_m(1, :)')));
+    y_p2 = 1/(1 + exp(-(x_test(i,:)*w_m(2, :)')));
+    y_p3 = 1/(1 + exp(-(x_test(i,:)*w_m(3, :)')));
+    if y_p1 == 0
+        y_p1 = 1;
+    else
+        y_p1 = 2;
+    end
+    if y_p2 == 0
+        y_p2 = 1;
+    else
+        y_p2 = 3;
+    end
+    if y_p3 == 0
+        y_p3 = 2;
+    else
+        y_p3 = 3;
+    end
     y_pred(i) = mode([y_p1 y_p2 y_p3]);
 end
 y_onevone = y_pred;
+% Multiclass accuracy measures
+U_onevall = zeros(3);
+U_onevone = zeros(3);
+for i = 1:60
+    % Fill One v All
+    for a = 1:3
+        for b = 1:3
+            if y_onevall(i) == a && y_test(i) == b
+                U_onevall(a,b) = U_onevall(a,b) + 1;
+            end    
+        end
+    end
+    % Fill One v One
+    for a = 1:3
+        for b = 1:3
+            if y_onevone(i) == a && y_test(i) == b
+                U_onevone(a,b) = U_onevone(a,b) + 1;
+            end    
+        end
+    end
+end
+oa_onevall = trace(U_onevall)/sum(sum(U_onevall));
+ia_onevall = diag(U_onevall)/sum(sum(U_onevall));
+disp('One vs All');
+disp('Individual Accuracies');
+disp(ia_onevall);
+disp('Overall Accuracy');
+disp(oa_onevall);
+
+oa_onevone = trace(U_onevone)/sum(sum(U_onevone));
+ia_onevone = diag(U_onevone)/sum(sum(U_onevone));
+disp('One vs One');
+disp('Individual Accuracies');
+disp(ia_onevone);
+disp('Overall Accuracy');
+disp(oa_onevone);

@@ -12,7 +12,7 @@ function w = logistic_regression( x_train, y_train, k, lr, w)
     for iter = 1:k
         % Update hypothesis
         for i = 1:m
-            h(i) = 1 + 1/(1 - exp(-(x_train(i,:)*w')));
+            h(i) = 1/(1 + exp(-(x_train(i,:)*w')));
         end
         % Update cost
         for i = 1:m

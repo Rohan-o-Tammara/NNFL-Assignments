@@ -29,7 +29,7 @@ y_test = full(Y(106:150, :));
 
 % --- RBFN --- %
 % Number of RBF neurons
-N = 10;
+N = 15;
 
 % Perform K-Means clustering on training data (for 10 neurons)
 [~, mu] = kmeans(x_train, N);

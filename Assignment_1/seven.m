@@ -33,7 +33,7 @@ lr = 0.01;
 for iter = 1:k
     % Update hypothesis
     for i = 1:m
-        h(i) = round(1 + 1/(1 - exp(-(x_train(i,:)*w'))));
+        h(i) = (1 + exp(-(x_train(i,:)*w')));
     end
     % Update cost
     for i = 1:m
@@ -51,7 +51,12 @@ end
 % Make predictions
 y_pred = zeros(size(y_test));
 for i = 1:size(y_pred,1)
-    y_pred(i) = round(1 + 1/(1 - exp(-(x_test(i,:)*w'))));
+    y_pred(i) = 1/(1 + exp(-(x_test(i,:)*w')));
+    if y_pred(i) > 0.5
+        y_pred(i) = 2;
+    else
+        y_pred(i) = 1;
+    end
 end
 % Create confusion matrix
 result = [y_test y_pred];
@@ -78,4 +83,7 @@ end
 se = tp/(tp+fn);
 sp = tn/(tn+fp);
 acc = (tp+tn)/(tp+tn+fp+fn);
-disp([se sp acc]);
+disp([tp fn;fp tn]);
+disp(['Sensitivity: ', num2str(se)]);
+disp(['Specificity: ', num2str(sp)]);
+disp(['Accuracy: ', num2str(acc)]);

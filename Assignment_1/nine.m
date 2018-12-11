@@ -47,10 +47,96 @@ for f = 1:5
         x_test = x(121:150, :);
         y_test = y(121:150, :);
     end
-    w = logistic_regression(x_train, y_train, 100, 0.1, w);
-    % Validation
-    y_pred = zeros(size(y_test));
-    for i = 1:size(y_pred,1)
-        y_pred(i) = round(1 + 1/(1 - exp(-(x_test(i,:)*w'))));
+    % --- One vs All --- %
+    % Initialize weights matrix
+    w_m = zeros(3, 5);
+    % Prepare training labels
+    for n = 1:3
+        y_n = y_train;
+        if n == 1
+            for i = 1:120
+                if y_n(i) ~= 1
+                    y_n(i) = 0;
+                else
+                    y_n(i) = 1;
+                end
+            end
+        end
+        if n == 2
+            for i = 1:120
+                if y_n(i) ~= 2
+                    y_n(i) = 0;
+                else
+                    y_n(i) = 1;
+                end
+            end
+        end
+        if n == 3
+            for i = 1:120
+                if y_n(i) ~= 3
+                    y_n(i) = 0;
+                else
+                    y_n(i) = 1;
+                end
+            end
+        end
+        % Prepare test labels
+        y_nt = y_test;
+        if n == 1
+            for i = 1:30
+                if y_nt(i) ~= 1
+                    y_nt(i) = 0;
+                else
+                    y_nt(i) = 1;
+                end
+            end
+        end
+        if n == 2
+            for i = 1:30
+                if y_nt(i) ~= 2
+                    y_nt(i) = 0;
+                else
+                    y_nt(i) = 1;
+                end
+            end
+        end
+        if n == 3
+            for i = 1:30
+                if y_nt(i) ~= 3
+                    y_nt(i) = 0;
+                else
+                    y_nt(i) = 1;
+                end
+            end
+        end
+    % Perform regression
+        w_m(n, :) = logistic_regression(x_train, y_n, 100, 0.1);
     end
+    % Validate
+    y_pred = zeros(size(y_nt));
+    for i = 1:size(y_pred,1)
+        y_p1 = 1/(1 + exp(-(x_test(i,:)*w_m(1, :)')));
+        y_p2 = 1/(1 + exp(-(x_test(i,:)*w_m(2, :)')));
+        y_p3 = 1/(1 + exp(-(x_test(i,:)*w_m(3, :)')));
+        [val, y_pred(i)] = max([y_p1 y_p2 y_p3]);
+    end
+    % Multiclass accuracy measures
+    U = zeros(3);
+    for i = 1:30
+        % Fill
+        for a = 1:3
+            for b = 1:3
+                if y_pred(i) == a && y_nt(i) == b
+                    U(a,b) = U(a,b) + 1;
+                end    
+            end
+        end
+    end
+    oa = trace(U)/sum(sum(U));
+    ia = diag(U)/sum(sum(U));
+    disp(['Fold ', num2str(f)]);
+    disp('Individual Accuracies');
+    disp(ia);
+    disp('Overall Accuracy');
+    disp(oa);
 end
